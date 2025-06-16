@@ -1,95 +1,162 @@
+'use client'
+
 import Image from "next/image";
-import styles from "./page.module.css";
+import styled from "styled-components";
+
+const popularPost = [
+  {id:1, title:'오늘 점심 뭐 먹지...', date:'25.06.16', likeCount:25},
+  {id:2, title:'집...', date:'25.06.16', likeCount:15},
+  {id:3, title:'가고 싶다...', date:'25.06.16', likeCount:28},
+  {id:4, title:'마약 밀수?', date:'25.06.16', likeCount:30},
+  {id:5, title:'개졸려', date:'25.06.16', likeCount:5}
+]
+
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
+    <>
+    <TopBar>
+      <Logo>MaskBook</Logo>
+      <SignIn>Sign In</SignIn>
+    </TopBar>
+    <Main>
+      <LeftPanel>
+        <SearchBox>
+          <Image
+            src="/search.png"
+            alt=""
+            width={17}
+            height={17}
+          />
+          <SearchInput placeholder="관심 있는 주제를 찾아봐요!"/>
+        </SearchBox>
+        <PopularArea>
+          <PopularHeading>
+            <span>💫</span>
+            <span>{"Popular"}</span>
+          </PopularHeading>
+          <PopularList>
+            {popularPost.map(({id,title, date, likeCount})=>(
+              <ListRow key={id}>
+                <ListTitle>{title}</ListTitle>
+                <span>{date}</span>
+              </ListRow>
+            ))
+            
+            }
+          </PopularList>
+        </PopularArea>
+      </LeftPanel>
+      <RightPanel>
         <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/ad.png"
+          alt="광고"
+          fill
         />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </RightPanel>
+    </Main>
+    </>
   );
 }
+
+const TopBar = styled.header`
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  padding:1.5rem 2rem;
+  background-color:#84AE92;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-sizing:border-box;
+  z-index:1000;
+`;
+
+const Logo = styled.div`
+  font-size:2rem;
+  font-weight:900;
+  color:white;
+`;
+
+const SignIn = styled.button`
+  padding: 0.5rem 1rem;
+  background-color:#B9D4AA;
+  border:none;
+  border-radius:3px;
+  font-size:1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    background-color:#A9C49A;
+  }
+`;
+
+const Main = styled.div`
+  display:grid;
+  grid-template-columns:7fr 3fr;
+  gap:3rem;
+  max-width:1000px;
+  margin:5rem auto;
+  padding: 9rem 1rem;
+`;
+
+const LeftPanel = styled.div`
+  
+`;
+
+const SearchBox = styled.div`
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 10px;
+  padding-bottom: 12px;
+`;
+
+const CImage = styled(Image)`
+  cursor: pointer; 
+  margin-left:5px;
+  margin-bottom:-2px;
+`;
+
+const SearchInput = styled.input`
+  border: none;
+  outline: none;
+  margin-left:5px;
+  width: 90%;
+`;
+
+const PopularArea = styled.div`
+  margin-top : 3rem;
+`;
+
+const PopularHeading = styled.div`
+  display:flex;
+  gap:0.5rem;
+  border-bottom:1px solid brown;
+  padding-bottom:1rem;
+`;
+
+const PopularList = styled.div`
+
+`;
+
+const ListRow = styled.div`
+  display:flex;
+  justify-content:space-between;
+  padding:1.2rem 0.6rem;
+  border-bottom:1px solid rgba(200, 200, 200, 0.8);
+`;
+
+const ListTitle = styled.div`
+  white-space:nowrap;
+  max-width:85%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+`;
+
+const RightPanel = styled.div`
+  aspect-ratio: 1/2;
+  position:relative;
+  border-radius: 3px;
+  cursor: pointer;
+`;
