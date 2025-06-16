@@ -1,9 +1,11 @@
 'use client'
 
+import Frame from "@/app/_components/frame";
 import { Spinner } from "@/app/_components/loading-spinner";
 import { Post } from "@/generated/prisma";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import { format } from "path";
 import styled from "styled-components";
 import useSWR from "swr";
@@ -27,12 +29,7 @@ export default function Home() {
   console.log(data?.postList);
 
   return (
-    <>
-    <TopBar>
-      <Logo>MaskBook</Logo>
-      <SignIn>Sign In</SignIn>
-    </TopBar>
-    <Main>
+    <Frame>
       <LeftPanel>
         <SearchBox>
           <Image
@@ -52,11 +49,13 @@ export default function Home() {
             {isLoading && <SpinnerWrapper>
               <Spinner />
             </SpinnerWrapper>}
-            {!isLoading && !error && data?.postList.map(({id,title, craetedAt, likedCount})=>(
-              <ListRow key={id}>
+            {!isLoading && !error && (data?.postList ?? []).map(({id,title, craetedAt, likedCount})=>(
+              <SLink href={`/post/${id}`} key={id}>
+              <ListRow>
                 <ListTitle>{title}</ListTitle>
                 <span>{formatDate(craetedAt)}</span>
               </ListRow>
+              </SLink>
             ))          
             }
           </PopularList>
@@ -69,8 +68,7 @@ export default function Home() {
           fill
         />
       </RightPanel>
-    </Main>
-    </>
+    </Frame>
   );
 }
 
@@ -181,4 +179,11 @@ const RightPanel = styled.div`
   position:relative;
   border-radius: 3px;
   cursor: pointer;
+`;
+
+const SLink = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
