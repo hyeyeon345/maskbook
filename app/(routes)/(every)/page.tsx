@@ -1,5 +1,6 @@
 'use client'
 
+import { Spinner } from "@/app/_components/loading-spinner";
 import { Post } from "@/generated/prisma";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
@@ -48,6 +49,9 @@ export default function Home() {
             <span>{"Popular"}</span>
           </PopularHeading>
           <PopularList>
+            {isLoading && <SpinnerWrapper>
+              <Spinner />
+            </SpinnerWrapper>}
             {!isLoading && !error && data?.postList.map(({id,title, craetedAt, likedCount})=>(
               <ListRow key={id}>
                 <ListTitle>{title}</ListTitle>
@@ -156,6 +160,13 @@ const ListRow = styled.div`
   justify-content:space-between;
   padding:1.2rem 0.6rem;
   border-bottom:1px solid rgba(200, 200, 200, 0.8);
+`;
+
+const SpinnerWrapper = styled.div`
+  width:100%;
+  display:flex;
+  justify-content: center;
+  margin-top:3rem;
 `;
 
 const ListTitle = styled.div`
