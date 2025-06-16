@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     const postList = await prisma.post.findMany({})
     return NextResponse.json({
-        postList,
         ok:true,
+        postList,
     })
 }

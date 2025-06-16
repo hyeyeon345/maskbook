@@ -1,18 +1,30 @@
 'use client'
 
+import { Post } from "@/generated/prisma";
+import { formatDate } from "@/lib/utils";
 import Image from "next/image";
+import { format } from "path";
 import styled from "styled-components";
+import useSWR from "swr";
 
-const popularPost = [
-  {id:1, title:'오늘 점심 뭐 먹지...', date:'25.06.16', likeCount:25},
-  {id:2, title:'집...', date:'25.06.16', likeCount:15},
-  {id:3, title:'가고 싶다...', date:'25.06.16', likeCount:28},
-  {id:4, title:'마약 밀수?', date:'25.06.16', likeCount:30},
-  {id:5, title:'개졸려', date:'25.06.16', likeCount:5}
-]
+//const popularPost = [
+//  {id:1, title:'오늘 점심 뭐 먹지...', date:'25.06.16', likeCount:25},
+//  {id:2, title:'집...', date:'25.06.16', likeCount:15},
+//  {id:3, title:'가고 싶다...', date:'25.06.16', likeCount:28},
+//  {id:4, title:'마약 밀수?', date:'25.06.16', likeCount:30},
+//  {id:5, title:'개졸려', date:'25.06.16', likeCount:5}
+//]
 
+interface PostResponse{
+  ok:boolean;
+  postList: Post[];
+}
 
 export default function Home() {
+
+  const {data, error, isLoading} = useSWR<PostResponse>('/api/post')
+  console.log(data?.postList);
+
   return (
     <>
     <TopBar>
@@ -36,13 +48,12 @@ export default function Home() {
             <span>{"Popular"}</span>
           </PopularHeading>
           <PopularList>
-            {popularPost.map(({id,title, date, likeCount})=>(
+            {!isLoading && !error && data?.postList.map(({id,title, craetedAt, likedCount})=>(
               <ListRow key={id}>
                 <ListTitle>{title}</ListTitle>
-                <span>{date}</span>
+                <span>{formatDate(craetedAt)}</span>
               </ListRow>
-            ))
-            
+            ))          
             }
           </PopularList>
         </PopularArea>
