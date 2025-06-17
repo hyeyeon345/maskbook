@@ -16,9 +16,7 @@ export default function Frame({children}:FrameProps) {
         </Logo>
         <SignIn>Sign In</SignIn>
         </TopBar>
-        <Main>
-            {children}
-        </Main>
+        {children}
         </>
     )
 }
@@ -54,15 +52,6 @@ const SignIn = styled.button`
   &:hover {
     background-color:#A9C49A;
   }
-`;
-
-const Main = styled.div`
-  display:grid;
-  grid-template-columns:7fr 3fr;
-  gap:3rem;
-  max-width:1000px;
-  margin:5rem auto;
-  padding: 9rem 1rem;
 `;
 
 const SLink = styled(Link)`

@@ -26,10 +26,10 @@ interface PostResponse{
 export default function Home() {
 
   const {data, error, isLoading} = useSWR<PostResponse>('/api/post')
-  console.log(data?.postList);
 
   return (
     <Frame>
+      <Main>
       <LeftPanel>
         <SearchBox>
           <Image
@@ -49,11 +49,11 @@ export default function Home() {
             {isLoading && <SpinnerWrapper>
               <Spinner />
             </SpinnerWrapper>}
-            {!isLoading && !error && (data?.postList ?? []).map(({id,title, craetedAt, likedCount})=>(
+            {!isLoading && !error && (data?.postList ?? []).map(({id,title, createdAt, likedCount})=>(
               <SLink href={`/post/${id}`} key={id}>
               <ListRow>
                 <ListTitle>{title}</ListTitle>
-                <span>{formatDate(craetedAt)}</span>
+                <span>{formatDate(createdAt)}</span>
               </ListRow>
               </SLink>
             ))          
@@ -68,29 +68,11 @@ export default function Home() {
           fill
         />
       </RightPanel>
+      </Main>
     </Frame>
   );
 }
 
-const TopBar = styled.header`
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  padding:1.5rem 2rem;
-  background-color:#84AE92;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-sizing:border-box;
-  z-index:1000;
-`;
-
-const Logo = styled.div`
-  font-size:2rem;
-  font-weight:900;
-  color:white;
-`;
 
 const SignIn = styled.button`
   padding: 0.5rem 1rem;
